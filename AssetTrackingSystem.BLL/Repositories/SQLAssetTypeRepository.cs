@@ -8,29 +8,29 @@ using System.Threading.Tasks;
 
 namespace AssetTrackingSystem.BLL.Repositories
 {
-    public class ModelRepository : IModelRepository
+    public class SQLAssetTypeRepository : IAssetTypeRepository
     {
-        public Task<Model> AddModel(Model newModel)
+        public Task<AssetType> AddAssetType(AssetType newAssetType)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Model> DeleteModel(int id)
+        public Task<AssetType> DeleteAssetType(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<Model>> GetAllModels()
+        public Task<IList<AssetType>> GetAllAssetTypes()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Model> GetModelsById(int id)
+        public Task<AssetType> GetAssetTypesById(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Model> UpdateModel(Model updatedModel)
+        public Task<AssetType> UpdateAssetType(AssetType updatedAssetType)
         {
             throw new NotImplementedException();
         }

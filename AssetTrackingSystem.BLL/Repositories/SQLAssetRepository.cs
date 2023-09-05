@@ -10,15 +10,16 @@ using System.Threading.Tasks;
 
 namespace AssetTrackingSystem.BLL.Repositories
 {
-    public class MockAssetRepository : IAssetRepository
+    public class SQLAssetRepository : IAssetRepository
     {
         private readonly MemoryDbContext _context;
 
-        public MockAssetRepository(MemoryDbContext context) 
+        public SQLAssetRepository(MemoryDbContext context) 
         { 
             _context = context;
-            SeedData();
+            
         }
+
         public async Task<Asset> AddAsset(Asset newAsset)
         {
             var asset = await _context.AddAsync(newAsset);
@@ -63,33 +64,5 @@ namespace AssetTrackingSystem.BLL.Repositories
             return AssetToUpdate;
         }
 
-        private void SeedData()
-        {
-            if(!_context.Assets.Any())
-            {
-                Asset asset1 = new Asset()
-                {
-                    Id = 1,
-                    TagNumber = "1000",
-                    AssetTypeId = 1,
-                    ManufacturerId = 1,
-                    ModelId = 111,
-                    SerialNumber = "ABC",
-                };
-
-                Asset asset2 = new Asset()
-                {
-                    Id = 2,
-                    TagNumber = "2000",
-                    AssetTypeId = 2,
-                    ManufacturerId = 2,
-                    ModelId = 222,
-                    SerialNumber = "DEF",
-                };
-
-                _context.Assets.AddRange(asset1, asset2);
-                _context.SaveChanges();
-            }
-        }
     }
 }

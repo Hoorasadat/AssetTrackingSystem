@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace AssetTrackingSystem.BLL.Repositories
 {
-    public class DepartmentRepository : IDepartmentRepository
+    public class SQLEmployeeRepository : IEmployeeRepository
     {
-        public Task<IList<Department>> GetAllDepartments()
+        public Task<IList<Employee>> GetAllEmployees()
         {
             throw new NotImplementedException();
         }
 
-        public Task<Department> GetDepartmentById(int id)
+        public Task<Employee> GetEmployeeById(int id)
         {
             throw new NotImplementedException();
         }

@@ -1,3 +1,5 @@
+using AssetTrackingSystem.BLL.Interfaces;
+using AssetTrackingSystem.BLL.Repositories;
 using AssetTrackingSystem.Data.Data;
 
 namespace AssetTrackingSystem
@@ -12,7 +14,7 @@ namespace AssetTrackingSystem
             builder.Services.AddControllersWithViews();
 
             builder.Services.AddDbContext<MemoryDbContext>();
-            //builder.Services.AddScoped<IStudentRepository, MockStudentRepository>();
+            builder.Services.AddScoped<IAssetRepository, MockAssetRepository>();
 
 
             var app = builder.Build();

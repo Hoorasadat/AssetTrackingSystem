@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AssetTrackingSystem.BLL.Repositories
 {
-    public class ManufacturerRepository : IManufacturerRepository
+    public class SQLManufacturerRepository : IManufacturerRepository
     {
         public Task<Manufacturer> AddManufacturer(Manufacturer newManufacturer)
         {
