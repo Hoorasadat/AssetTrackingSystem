@@ -19,6 +19,7 @@ namespace AssetTrackingSystem.BLL.Repositories
             _context = context;
             SeedData();
         }
+
         public async Task<Asset> AddAsset(Asset newAsset)
         {
             var asset = await _context.AddAsync(newAsset);
@@ -30,6 +31,12 @@ namespace AssetTrackingSystem.BLL.Repositories
         public async Task<Asset> DeleteAsset(int id)
         {
             Asset deletedAsset = await _context.Assets.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (deletedAsset == null)
+            {
+                return null;
+            }
+
             _context.Assets.Remove(deletedAsset);
             await _context.SaveChangesAsync();
 
@@ -49,6 +56,11 @@ namespace AssetTrackingSystem.BLL.Repositories
         public async Task<Asset> UpdateAsset(Asset updatedAsset)
         {
             Asset AssetToUpdate = await _context.Assets.FirstOrDefaultAsync(x => x.Id == updatedAsset.Id);
+
+            if (AssetToUpdate == null)
+            {
+                return null;
+            }
 
             AssetToUpdate.TagNumber = updatedAsset.TagNumber;
             AssetToUpdate.AssetTypeId = updatedAsset.AssetTypeId;
