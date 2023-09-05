@@ -1,6 +1,7 @@
 using AssetTrackingSystem.BLL.Interfaces;
 using AssetTrackingSystem.BLL.Repositories;
 using AssetTrackingSystem.Data.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace AssetTrackingSystem
 {
@@ -15,6 +16,13 @@ namespace AssetTrackingSystem
 
             builder.Services.AddDbContext<MemoryDbContext>();
             builder.Services.AddScoped<IAssetRepository, MockAssetRepository>();
+
+            builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            builder.Services.AddScoped<IAssetRepository, SQLAssetRepository>();
+            builder.Services.AddScoped<IAssetTypeRepository, SQLAssetTypeRepository>();
+            builder.Services.AddScoped<IManufacturerRepository, SQLManufacturerRepository>();
+            builder.Services.AddScoped<IModelRepository, SQLModelRepository>();
 
 
             var app = builder.Build();
