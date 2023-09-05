@@ -14,8 +14,8 @@ namespace AssetTrackingSystem.Lib.Models
         public int AssetTypeId { get; set; }
         public int ManufacturerId { get; set; }
         public int ModelId { get; set; }
-        public string Description { get; set; }
-        public string AssignedTo { get; set; }
+        public string? Description { get; set; }
+        public string? AssignedTo { get; set; }
         public string SerialNumber { get; set; }
         public AssetType AssetType { get; set; }
         public Manufacturer Manufacturer { get; set; }
