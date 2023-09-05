@@ -66,8 +66,10 @@ namespace AssetTrackingSystem.BLL.Repositories
                     ModelId = 222,
                     SerialNumber = "DEF",
                 };
+
+                _context.Assets.AddRange(asset1, asset2);
+                _context.SaveChanges();
             }
-            _context.SaveChanges();
         }
     }
 }
