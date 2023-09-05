@@ -13,5 +13,6 @@ namespace AssetTrackingSystem.Lib.Models
         public string Name { get; set; }
         public int ManufacturerID { get; set; }
         public IList<Asset> Assets { get; set; }
+        public Manufacturer Manufacturer { get; set; }
     }
 }

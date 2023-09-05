@@ -10,7 +10,7 @@ namespace AssetTrackingSystem.Lib.Models
     public class Asset
     {
         public int Id { get; set; }
-        public string TagNumber { get; set; }
+        public string? TagNumber { get; set; }
         public int AssetTypeId { get; set; }
         public int ManufacturerId { get; set; }
         public int ModelId { get; set; }
