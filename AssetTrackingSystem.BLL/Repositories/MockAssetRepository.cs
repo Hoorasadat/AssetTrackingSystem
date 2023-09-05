@@ -1,6 +1,7 @@
 ﻿using AssetTrackingSystem.BLL.Interfaces;
 using AssetTrackingSystem.Data.Data;
 using AssetTrackingSystem.Lib.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,29 +19,49 @@ namespace AssetTrackingSystem.BLL.Repositories
             _context = context;
             SeedData();
         }
-        public Task<Asset> AddAsset(Asset newAsset)
+        public async Task<Asset> AddAsset(Asset asset)
         {
-            throw new NotImplementedException();
+            var newAsset = await _context.AddAsync(asset);
+            await _context.SaveChangesAsync();
+
+            return newAsset.Entity;
         }
 
-        public Task<Asset> DeleteAsset(int id)
+        public async Task<Asset> DeleteAsset(int id)
         {
-            throw new NotImplementedException();
+            Asset deletedAsset = await _context.Assets.FirstOrDefaultAsync(x => x.Id == id);
+            _context.Assets.Remove(deletedAsset);
+            await _context.SaveChangesAsync();
+
+            return deletedAsset;
         }
 
-        public Task<IList<Asset>> GetAllAssets()
+        public async Task<IList<Asset>> GetAllAssets()
         {
-            throw new NotImplementedException();
+            return await _context.Assets.ToListAsync();
         }
 
-        public Task<Asset> GetAssetsById(int id)
+        public async Task<Asset> GetAssetsById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Assets.FirstOrDefaultAsync(x => x.Id == id);
+
         }
 
-        public Task<Asset> UpdateAsset(Asset updatedAsset)
+        public async Task<Asset> UpdateAsset(Asset asset)
         {
-            throw new NotImplementedException();
+            Asset AssetToUpdate = await _context.Assets.FirstOrDefaultAsync(x => x.Id == asset.Id);
+
+            AssetToUpdate.TagNumber = asset.TagNumber;
+            AssetToUpdate.AssetTypeId = asset.AssetTypeId;
+            AssetToUpdate.ManufacturerId = asset.ManufacturerId;
+            AssetToUpdate.ModelId = asset.ModelId;
+            AssetToUpdate.Description = asset.Description;
+            AssetToUpdate.AssignedTo = asset.AssignedTo;
+            AssetToUpdate.SerialNumber = asset.SerialNumber;
+
+            _context.Assets.Update(AssetToUpdate);
+            await _context.SaveChangesAsync();
+            return AssetToUpdate;
         }
 
         private void SeedData()
