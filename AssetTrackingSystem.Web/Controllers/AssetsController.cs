@@ -2,6 +2,7 @@
 using AssetTrackingSystem.BLL.Repositories;
 using AssetTrackingSystem.Data.Data;
 using AssetTrackingSystem.Lib.Models;
+using AssetTrackingSystem.Web.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -45,8 +46,15 @@ namespace AssetTrackingSystem.Web.Controllers
             //ViewBag.Asset = asset;
             //return View();
 
-            ViewData["PageTitle"] = "Asset Details";
-            return View(asset);
+            //ViewData["PageTitle"] = "Asset Details";
+            //return View(asset);
+
+            AssetViewModel assetVM = new AssetViewModel()
+            {
+                Asset = asset,
+                PageTitle = "Asset Details"
+            };
+            return View(assetVM);
         }
 
 
