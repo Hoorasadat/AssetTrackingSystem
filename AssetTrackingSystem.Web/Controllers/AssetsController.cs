@@ -19,12 +19,9 @@ namespace AssetTrackingSystem.Web.Controllers
 
 
         // GET: AssetController
-
-        //public async Task<ActionResult> Index()
-        public async Task<ViewResult> Index()
+        public async Task<ActionResult> Index()
         {
             IList<Asset> assets = await _assetRepository.GetAllAssets();
-            //return Json(assets);
             return View(assets);
         }
 

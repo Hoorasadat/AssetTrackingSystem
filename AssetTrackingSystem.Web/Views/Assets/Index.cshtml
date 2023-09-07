@@ -1,5 +1,41 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IList<Asset>
+
 @{
+    ViewData["Title"] = "List of Assets";
 }
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Tag Number</th>
+            <th>Description</th>
+            <th>Assigned To</th>
+            <th>Serial Number</th>
+            <th>Asset Type</th>
+            <th>Manufacturer</th>
+            <th>Model</th>
+            <th></th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach (var asset in Model)
+        {
+            <tr>
+                <td>@asset.TagNumber</td>
+                <td>@asset.Description</td>
+                <td>@asset.AssignedTo</td>
+                <td>@asset.SerialNumber</td>
+                <td>@asset.AssetType</td>
+                <td>@asset.Manufacturer</td>
+                <td>@asset.Model</td>
+                <td>
+                    <a>View</a>
+                    <a>Edit</a>
+                    <a>Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

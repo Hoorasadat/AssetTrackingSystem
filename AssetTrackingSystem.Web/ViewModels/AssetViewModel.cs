@@ -1,4 +1,6 @@
-﻿namespace AssetTrackingSystem.Web.ViewModels
+﻿using AssetTrackingSystem.Lib.Models;
+
+namespace AssetTrackingSystem.Web.ViewModels
 {
     public class AssetViewModel
     {
