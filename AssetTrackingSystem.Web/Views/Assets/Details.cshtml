@@ -1,0 +1,51 @@
+﻿@* <h3>@ViewData["PageTitle"]</h3> *@
+@* <h3>@ViewBag.PageTitle</h3> *@
+<h3>@ViewData["PageTitle"]</h3>
+
+@* @{
+    var asset = ViewData["Asset"] as Asset;
+} *@
+
+@model Asset
+
+<div>
+    @* Tag Number: @asset.TagNumber *@
+    @* Tag Number: @ViewBag.asset.TagNumber *@
+    Tag Number: @Model.TagNumber
+</div>
+
+<div>
+    @* Description: @asset.Description *@
+    @* Description: @ViewBag.asset.Description *@
+    Description: @Model.Description
+</div>
+
+<div>
+    @* Assigned To: @asset.AssignedTo *@
+    @* Assigned To: @ViewBag.asset.AssignedTo *@
+    Assigned To: @Model.AssignedTo
+</div>
+
+<div>
+    @* Serial Number: @asset.SerialNumber *@
+    @* Serial Number: @ViewBag.asset.SerialNumber *@
+    Serial Number: @Model.SerialNumber
+</div>
+
+<div>
+    @* Asset Type: @asset.AssetType *@
+    @* Asset Type: @ViewBag.asset.AssetType *@
+    Asset Type: @Model.AssetType
+</div>
+
+<div>
+    @* Manufacturer: @asset.Manufacturer *@
+    @* Manufacturer: @ViewBag.asset.Manufacturer *@
+    Manufacturer: @Model.Manufacturer
+</div>
+
+<div>
+    @* Model: @asset.Model *@
+    @* Model: @ViewBag.asset.Model *@
+    Model: @Model.Model
+</div>
