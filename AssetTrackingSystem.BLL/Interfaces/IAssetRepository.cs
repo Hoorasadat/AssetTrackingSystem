@@ -14,6 +14,5 @@ namespace AssetTrackingSystem.BLL.Interfaces
         Task<Asset> AddAsset(Asset newAsset);
         Task<Asset> UpdateAsset(Asset updatedAsset);
         Task<Asset> DeleteAsset(int id);
-
     }
 }

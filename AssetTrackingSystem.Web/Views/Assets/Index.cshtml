@@ -5,16 +5,19 @@
 }
 
 
-<table>
-    <thead>
+<table class="table table-borderless table-responsive table-striped">
+    <thead class="bg-primary text-white">
         <tr>
             <th>Tag Number</th>
+            <th>Asset Type Id</th>
+            <th>Manufacturer Id</th>
+            <th>Model Id</th>
             <th>Description</th>
             <th>Assigned To</th>
             <th>Serial Number</th>
-            <th>Asset Type</th>
+            @* <th>Asset Type</th>
             <th>Manufacturer</th>
-            <th>Model</th>
+            <th>Model</th> *@
             <th></th>
         </tr>
     </thead>
@@ -24,16 +27,19 @@
         {
             <tr>
                 <td>@asset.TagNumber</td>
+                <td>@asset.AssetTypeId</td>
+                <td>@asset.ManufacturerId</td>
+                <td>@asset.ModelId</td>
                 <td>@asset.Description</td>
                 <td>@asset.AssignedTo</td>
                 <td>@asset.SerialNumber</td>
-                <td>@asset.AssetType</td>
+                @* <td>@asset.AssetType</td>
                 <td>@asset.Manufacturer</td>
-                <td>@asset.Model</td>
+                <td>@asset.Model</td> *@
                 <td>
-                    <a>View</a>
-                    <a>Edit</a>
-                    <a>Delete</a>
+                    <a asp-controller="Assets" asp-action="Details" asp-route-id="@asset.Id">View</a>
+                    <a asp-controller="Assets" asp-action="Edit" asp-route-id="@asset.Id">Edit</a>
+                    <a asp-controller="Assets" asp-action="Delete" asp-route-id="@asset.Id">Delete</a>
                 </td>
             </tr>
         }

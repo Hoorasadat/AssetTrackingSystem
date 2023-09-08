@@ -6,60 +6,92 @@
 
 @model AssetViewModel
 
+@{
+    ViewData["Title"] = "Asset Details";
+}
 
 
 @* <h3>@ViewData["PageTitle"]</h3> *@
 @* <h3>@ViewBag.PageTitle</h3> *@
 @* <h3>@ViewData["PageTitle"]</h3> *@
-<h3>@Model.PageTitle</h3>
+@* <h3>@Model.PageTitle</h3> *@
 
 
 
-<div>
+<div class="d-flex justify-content-center">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header bg-primary text-center text-white">
+                <h3>@Model.Asset.Description</h3>
+            </div>
+
+            <div class="card-body">
+                <h4>ID: @Model.Asset.Id</h4>
+                <h4>Tag Number: @Model.Asset.TagNumber</h4>
+                <h4>Asset Type: @Model.Asset.AssetType</h4>
+                <h4>Manufacturer: @Model.Asset.Manufacturer</h4>
+                <h4>Model: @Model.Asset.Model</h4>
+                <h4>Assigned To: @Model.Asset.AssignedTo</h4>
+                <h4>Serial Number: @Model.Asset.SerialNumber</h4>
+            </div>
+
+            <div class="card-footer text-center">
+                <a asp-controller="Assets" asp-action="Index" class="btn btn-secondary col-md-3">Cancel</a>
+                <a asp-controller="Assets" asp-action="Edit" asp-route-id="@Model.Asset.Id" class="btn btn-primary col-md-3">Edit</a>
+                <a asp-controller="Assets" asp-action="Delete" asp-route-id="@Model.Asset.Id" class="btn btn-danger col-md-3">Delete</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@* <div> *@
     @* Tag Number: @asset.TagNumber *@
     @* Tag Number: @ViewBag.asset.TagNumber *@
     @* Tag Number: @Model.TagNumber *@
-    Tag Number: @Model.Asset.TagNumber
-</div>
+    @* Tag Number: @Model.Asset.TagNumber *@
+@* </div> *@
 
-<div>
+@* <div> *@
     @* Description: @asset.Description *@
     @* Description: @ViewBag.asset.Description *@
     @* Description: @Model.Description *@
-    Description: @Model.Asset.Description
-</div>
+    @* Description: @Model.Asset.Description *@
+@* </div> *@
 
-<div>
+@* <div> *@
     @* Assigned To: @asset.AssignedTo *@
     @* Assigned To: @ViewBag.asset.AssignedTo *@
     @* Assigned To: @Model.AssignedTo *@
-    Assigned To: @Model.Asset.AssignedTo
-</div>
+    @* Assigned To: @Model.Asset.AssignedTo *@
+@* </div> *@
 
-<div>
+@* <div> *@
     @* Serial Number: @asset.SerialNumber *@
     @* Serial Number: @ViewBag.asset.SerialNumber *@
     @* Serial Number: @Model.SerialNumber *@
-    Serial Number: @Model.Asset.SerialNumber
-</div>
+    @* Serial Number: @Model.Asset.SerialNumber *@
+@* </div> *@
 
-<div>
+@* <div> *@
     @* Asset Type: @asset.AssetType *@
     @* Asset Type: @ViewBag.asset.AssetType *@
     @* Asset Type: @Model.AssetType *@
-    Asset Type: @Model.Asset.AssetType
-</div>
+    @* Asset Type: @Model.Asset.AssetType *@
+@* </div> *@
 
-<div>
+@* <div> *@
     @* Manufacturer: @asset.Manufacturer *@
     @* Manufacturer: @ViewBag.asset.Manufacturer *@
     @* Manufacturer: @Model.Manufacturer *@
-    Manufacturer: @Model.Asset.Manufacturer
-</div>
+    @* Manufacturer: @Model.Asset.Manufacturer *@
+@* </div> *@
 
-<div>
+@* <div> *@
     @* Model: @asset.Model *@
     @* Model: @ViewBag.asset.Model *@
     @* Model: @Model.Model *@
-    Model: @Model.Asset.Model
-</div>
+    @* Model: @Model.Asset.Model *@
+@* </div> *@
