@@ -51,7 +51,7 @@ namespace AssetTrackingSystem.Web.Controllers
             AssetViewModel assetVM = new AssetViewModel()
             {
                 Asset = asset,
-                PageTitle = "Asset Details"
+                PageHeader = "Asset Details"
             };
             return View(assetVM);
         }
@@ -85,9 +85,16 @@ namespace AssetTrackingSystem.Web.Controllers
 
 
         // GET: AssetController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            Asset asset = await _assetRepository.GetAssetsById(id);
+
+            AssetViewModel assetVM = new AssetViewModel()
+            {
+                PageHeader = "Edit the selected student",
+                Asset = asset
+            };
+            return View(assetVM);
         }
 
 

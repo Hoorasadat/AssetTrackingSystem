@@ -1,0 +1,84 @@
+﻿@model AssetViewModel
+
+@{
+    ViewData["Title"] = "Edit Asset";
+}
+
+
+<h1 class="text-center text-primary fw-bold m-5">@Model.PageHeader</h1>
+
+
+<form method="post" asp-controller="Assets" asp-action="Edit" enctype="multipart/form-data">
+    <div asp-validation-summary="All" class="text-danger"></div>
+
+    <input asp-for="@Model.Asset.Id" hidden />
+
+    <div class="row">
+        <label asp-for="Asset.TagNumber" class="col-form-label col-md-2"></label>
+        <div class="col-md-6 mb-2 mt-2">
+            <input asp-for="Asset.TagNumber" class="form-control" />
+            <span asp-validation-for="Asset.TagNumber" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <label asp-for="Asset.AssetType" class="col-form-label col-md-2"></label>
+        <div class="col-md-6 mb-2 mt-2">
+            <input asp-for="Asset.AssetType" class="form-control" />
+            <span asp-validation-for="Asset.AssetType" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <label asp-for="Asset.Manufacturer" class="col-form-label col-md-2"></label>
+        <div class="col-md-6 mb-2 mt-2">
+            <input asp-for="Asset.Manufacturer" class="form-control" />
+            <span asp-validation-for="Asset.Manufacturer" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <label asp-for="Asset.Model" class="col-form-label col-md-2"></label>
+        <div class="col-md-6 mb-2 mt-2">
+            <input asp-for="Asset.Model" class="form-control" />
+            <span asp-validation-for="Asset.Model" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <label asp-for="Asset.AssignedTo" class="col-form-label col-md-2"></label>
+        <div class="col-md-6 mb-2 mt-2">
+            <input asp-for="Asset.AssignedTo" class="form-control" />
+            <span asp-validation-for="Asset.AssignedTo" class="text-danger"></span>
+        </div>
+    </div>
+
+    @* <div class="row mb-2">
+        <label asp-for="Asset.AssignedTo" class="col-form-label col-md-2"></label>
+        <div class="col-md-6 mb-2 mt-2">
+            <select asp-for="Asset.AssignedTo" class="form-control form-select" asp-items="Html.GetEnumSelectList<Gender>()">
+                <option value=""> Select Gender</option>
+            </select>
+            <span asp-validation-for="Asset.AssignedTo" class="text-danger"></span>
+        </div>
+    </div> *@
+
+    <div class="row mb-2">
+        <label asp-for="Asset.SerialNumber" class="col-form-label col-md-2"></label>
+        <div class="col-md-6">
+            <input asp-for="Asset.SerialNumber" class="form-control" />
+        </div>
+    </div>
+
+    <div class="row">
+        <button type="submit" class="btn btn-primary col-md-2 ms-2 me-2">Update</button>
+        <a asp-controller="Assets" asp-action="Index" class="btn btn-secondary col-md-2 ms-2 me-2">Cancel</a>
+    </div>
+
+</form>
+
+@section Scripts{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
