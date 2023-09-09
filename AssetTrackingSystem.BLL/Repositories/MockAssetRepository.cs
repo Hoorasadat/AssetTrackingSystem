@@ -20,6 +20,7 @@ namespace AssetTrackingSystem.BLL.Repositories
             SeedData();
         }
 
+
         public async Task<Asset> AddAsset(Asset newAsset)
         {
             var asset = await _context.AddAsync(newAsset);
@@ -27,6 +28,7 @@ namespace AssetTrackingSystem.BLL.Repositories
 
             return asset.Entity;
         }
+
 
         public async Task<Asset> DeleteAsset(int id)
         {
@@ -43,8 +45,10 @@ namespace AssetTrackingSystem.BLL.Repositories
             return deletedAsset;
         }
 
+
         public async Task<IList<Asset>> GetAllAssets()
         {
+            /*return await _context.Assets.Include(a => a.AssetType).Include(a => a.Model).Include(a => a.Manufacturer).ToListAsync();*/
             return await _context.Assets.ToListAsync();
         }
 

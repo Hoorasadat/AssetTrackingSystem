@@ -21,4 +21,8 @@
     <ProjectReference Include="..\AssetTrackingSystem.Lib\AssetTrackingSystem.Lib.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

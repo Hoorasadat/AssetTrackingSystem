@@ -18,6 +18,7 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
+
         // GET: AssetController
         public async Task<ActionResult> Index()
         {
@@ -26,13 +27,14 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
+
         // GET: AssetController/Details/5
         public async Task<ActionResult> Details(int id)
         {
             //MemoryDbContext dbContext = new MemoryDbContext();
             //MockAssetRepository mockAssetRepository = new MockAssetRepository(dbContext);
-
             //Asset asset = await mockAssetRepository.GetAssetsById(id);
+
             Asset asset = await _assetRepository.GetAssetsById(id);
 
             //ViewData["PageTitle"] = "Asset Details";
@@ -55,11 +57,14 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
+
         // GET: AssetController/Create
+        [HttpGet]
         public ActionResult Create()
         {
             return View();
         }
+
 
 
         // POST: AssetController/Create
@@ -78,11 +83,13 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
+
         // GET: AssetController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
+
 
 
         // POST: AssetController/Edit/5
@@ -101,11 +108,13 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
+
         // GET: AssetController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
+
 
 
         // POST: AssetController/Delete/5
