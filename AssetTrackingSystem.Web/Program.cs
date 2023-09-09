@@ -14,15 +14,15 @@ namespace AssetTrackingSystem
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<MemoryDbContext>();
-            builder.Services.AddScoped<IAssetRepository, MockAssetRepository>();
+            //builder.Services.AddDbContext<MemoryDbContext>();
+            //builder.Services.AddScoped<IAssetRepository, MockAssetRepository>();
 
-            //builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-            //builder.Services.AddScoped<IAssetRepository, SQLAssetRepository>();
-            //builder.Services.AddScoped<IAssetTypeRepository, SQLAssetTypeRepository>();
-            //builder.Services.AddScoped<IManufacturerRepository, SQLManufacturerRepository>();
-            //builder.Services.AddScoped<IModelRepository, SQLModelRepository>();
+            builder.Services.AddScoped<IAssetRepository, SQLAssetRepository>();
+            builder.Services.AddScoped<IAssetTypeRepository, SQLAssetTypeRepository>();
+            builder.Services.AddScoped<IManufacturerRepository, SQLManufacturerRepository>();
+            builder.Services.AddScoped<IModelRepository, SQLModelRepository>();
 
 
             var app = builder.Build();
