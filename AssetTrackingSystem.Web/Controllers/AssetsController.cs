@@ -2,7 +2,7 @@
 using AssetTrackingSystem.BLL.Repositories;
 using AssetTrackingSystem.Data.Data;
 using AssetTrackingSystem.Lib.Models;
-using AssetTrackingSystem.Web.ViewModels;
+using AssetTrackingSystem.Web.ViewModels.Assets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -48,7 +48,7 @@ namespace AssetTrackingSystem.Web.Controllers
             //ViewData["PageTitle"] = "Asset Details";
             //return View(asset);
 
-            AssetViewModel assetVM = new AssetViewModel()
+            DetailsAssetViewModel assetVM = new DetailsAssetViewModel()
             {
                 Asset = asset,
                 PageHeader = "Asset Details"
@@ -89,10 +89,16 @@ namespace AssetTrackingSystem.Web.Controllers
         {
             Asset asset = await _assetRepository.GetAssetsById(id);
 
-            AssetViewModel assetVM = new AssetViewModel()
+            EditAssetViewModel assetVM = new EditAssetViewModel()
             {
-                PageHeader = "Edit the selected student",
-                Asset = asset
+                Id = asset.Id,
+                TagNumber = asset.TagNumber,
+                AssetTypeId = asset.AssetTypeId,
+                ManufacturerId = asset.ManufacturerId,
+                ModelId = asset.ModelId,
+                Description = asset.Description,
+                AssignedTo = asset.AssignedTo,
+                SerialNumber = asset.SerialNumber
             };
             return View(assetVM);
         }
@@ -102,11 +108,30 @@ namespace AssetTrackingSystem.Web.Controllers
         // POST: AssetController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(EditAssetViewModel editeAssetVM)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if(!ModelState.IsValid)
+                {
+                    return View();
+                }
+
+                Asset asset = new Asset()
+                {
+                    Id = editeAssetVM.Id,
+                    TagNumber = editeAssetVM.TagNumber,
+                    AssetTypeId = editeAssetVM.AssetTypeId,
+                    ManufacturerId = editeAssetVM.ManufacturerId,
+                    ModelId = editeAssetVM.ModelId,
+                    Description = editeAssetVM.Description,
+                    AssignedTo  = editeAssetVM.AssignedTo,
+                    SerialNumber = editeAssetVM.SerialNumber,
+                };
+
+                await _assetRepository.UpdateAsset(asset);
+
+                return RedirectToAction("Index", "Assets");
             }
             catch
             {
