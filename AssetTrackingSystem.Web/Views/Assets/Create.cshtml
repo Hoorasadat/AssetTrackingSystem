@@ -5,13 +5,11 @@
 }
 
 
-<h1 class="text-center text-primary fw-bold m-5">Updating @Model.Description</h1>
+<h1 class="text-center text-primary fw-bold m-5">Add a New Asset</h1>
 
 
-<form method="post" asp-controller="Assets" asp-action="Edit" enctype="multipart/form-data">
+<form method="post" asp-controller="Assets" asp-action="Create" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
-
-    <input asp-for="Id" hidden />
 
     <div class="row">
         <label asp-for="TagNumber" class="col-form-label col-md-2"></label>
@@ -79,7 +77,7 @@
     </div>
 
     <div class="row">
-        <button type="submit" class="btn btn-primary col-md-2 ms-2 me-2">Update</button>
+        <button type="submit" class="btn btn-primary col-md-2 ms-2 me-2">Add</button>
         <a asp-controller="Assets" asp-action="Index" class="btn btn-secondary col-md-2 ms-2 me-2">Cancel</a>
     </div>
 

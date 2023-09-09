@@ -70,11 +70,29 @@ namespace AssetTrackingSystem.Web.Controllers
         // POST: AssetController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create(CreateAssetViewModel createAssetVM)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if(!ModelState.IsValid)
+                {
+                    return View();
+                }
+
+                Asset asset = new Asset()
+                {
+                    TagNumber = createAssetVM.TagNumber,
+                    AssetTypeId = createAssetVM.AssetTypeId,
+                    ManufacturerId = createAssetVM.ManufacturerId,
+                    ModelId = createAssetVM.ModelId,
+                    Description = createAssetVM.Description,
+                    AssignedTo = createAssetVM.AssignedTo,
+                    SerialNumber = createAssetVM.SerialNumber,
+                };
+
+                await _assetRepository.AddAsset(asset);
+
+                return RedirectToAction("Index" , "Assets");
             }
             catch
             {
