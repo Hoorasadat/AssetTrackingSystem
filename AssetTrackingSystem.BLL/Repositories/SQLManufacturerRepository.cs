@@ -1,6 +1,7 @@
 ﻿using AssetTrackingSystem.BLL.Interfaces;
 using AssetTrackingSystem.Data.Data;
 using AssetTrackingSystem.Lib.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,9 @@ namespace AssetTrackingSystem.BLL.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<IList<Manufacturer>> GetAllManufacturers()
+        public async Task<IList<Manufacturer>> GetAllManufacturers()
         {
-            throw new NotImplementedException();
+            return await _context.Manufacturers.ToListAsync();
         }
 
         public Task<Manufacturer> GetManufacturersById(int id)

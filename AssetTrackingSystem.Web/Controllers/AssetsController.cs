@@ -5,16 +5,23 @@ using AssetTrackingSystem.Lib.Models;
 using AssetTrackingSystem.Web.ViewModels.Assets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace AssetTrackingSystem.Web.Controllers
 {
     public class AssetsController : Controller
     {
         private readonly IAssetRepository _assetRepository;
+        private readonly IAssetTypeRepository _assetTypeRepository;
+        private readonly IManufacturerRepository _manufacturerRepository;
+        private readonly IModelRepository _modelRepository;
 
-        public AssetsController(IAssetRepository assetRepository)
+        public AssetsController(IAssetRepository assetRepository, IAssetTypeRepository assetTypeRepository, IManufacturerRepository manufacturerRepository, IModelRepository modelRepository)
         {
             _assetRepository = assetRepository;
+            _assetTypeRepository = assetTypeRepository;
+            _manufacturerRepository = manufacturerRepository;
+            _modelRepository = modelRepository;
         }
 
 
@@ -60,10 +67,25 @@ namespace AssetTrackingSystem.Web.Controllers
 
         // GET: AssetController/Create
         [HttpGet]
-        public ActionResult Create()
+        public async Task<ActionResult> Create()
         {
+            //return await GetManufacturers();
+
+            IList<Manufacturer> manufacturers = await _manufacturerRepository.GetAllManufacturers();
+
+            ViewData["Manufacturers"] = manufacturers.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() });
+
             return View();
         }
+
+        //private async Task<ActionResult> GetManufacturers()
+        //{
+        //    IList<Manufacturer> manufacturers = await _manufacturerRepository.GetAllManufacturers();
+
+        //    ViewData["Manufacturers"] = manufacturers.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() });
+
+        //    return View();
+        //}
 
 
 
