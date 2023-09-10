@@ -69,23 +69,12 @@ namespace AssetTrackingSystem.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            //return await GetManufacturers();
-
-            IList<Manufacturer> manufacturers = await _manufacturerRepository.GetAllManufacturers();
-
-            ViewData["Manufacturers"] = manufacturers.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() });
+            await GetAssetTypes();
+            await GetManufacturers();
+            await GetModels();
 
             return View();
         }
-
-        //private async Task<ActionResult> GetManufacturers()
-        //{
-        //    IList<Manufacturer> manufacturers = await _manufacturerRepository.GetAllManufacturers();
-
-        //    ViewData["Manufacturers"] = manufacturers.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() });
-
-        //    return View();
-        //}
 
 
 
@@ -140,6 +129,11 @@ namespace AssetTrackingSystem.Web.Controllers
                 AssignedTo = asset.AssignedTo,
                 SerialNumber = asset.SerialNumber
             };
+
+            await GetAssetTypes();
+            await GetManufacturers();
+            await GetModels();
+
             return View(assetVM);
         }
 
@@ -182,26 +176,59 @@ namespace AssetTrackingSystem.Web.Controllers
 
 
         // GET: AssetController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
 
 
         // POST: AssetController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                await _assetRepository.DeleteAsset(id);
+                return RedirectToAction("Index", "Assets");
             }
             catch
             {
                 return View();
             }
+        }
+
+
+
+
+        private async Task<ActionResult> GetAssetTypes()
+        {
+            IList<AssetType> assetTypes = await _assetTypeRepository.GetAllAssetTypes();
+
+            ViewData["AssetTypes"] = assetTypes.Select(at => new SelectListItem { Text = at.Name, Value = at.Id.ToString() });
+
+            return View();
+        }
+
+
+        private async Task<ActionResult> GetManufacturers()
+        {
+            IList<Manufacturer> manufacturers = await _manufacturerRepository.GetAllManufacturers();
+
+            ViewData["Manufacturers"] = manufacturers.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() });
+
+            return View();
+        }
+
+
+        private async Task<ActionResult> GetModels()
+        {
+            IList<Model> models = await _modelRepository.GetAllModels();
+
+            ViewData["Models"] = models.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() });
+
+            return View();
         }
     }
 }

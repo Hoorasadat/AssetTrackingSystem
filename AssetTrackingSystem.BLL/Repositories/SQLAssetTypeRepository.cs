@@ -1,6 +1,7 @@
 ﻿using AssetTrackingSystem.BLL.Interfaces;
 using AssetTrackingSystem.Data.Data;
 using AssetTrackingSystem.Lib.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,6 @@ namespace AssetTrackingSystem.BLL.Repositories
         public SQLAssetTypeRepository(ApplicationDbContext context)
         {
             _context = context;
-
         }
 
 
@@ -25,20 +25,24 @@ namespace AssetTrackingSystem.BLL.Repositories
             throw new NotImplementedException();
         }
 
+
         public Task<AssetType> DeleteAssetType(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<AssetType>> GetAllAssetTypes()
+
+        public async Task<IList<AssetType>> GetAllAssetTypes()
         {
-            throw new NotImplementedException();
+            return await _context.AssetTypes.ToListAsync();
         }
+
 
         public Task<AssetType> GetAssetTypesById(int id)
         {
             throw new NotImplementedException();
         }
+
 
         public Task<AssetType> UpdateAssetType(AssetType updatedAssetType)
         {

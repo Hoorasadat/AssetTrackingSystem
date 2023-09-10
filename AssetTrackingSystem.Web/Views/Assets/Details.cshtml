@@ -20,7 +20,7 @@
 <h1 class="text-center text-primary fw-bold m-5">@Model.PageHeader</h1>
 
 <div class="d-flex justify-content-center">
-    <div class="col-md-5">
+    <div class="col-md-8">
         <div class="card">
             <div class="card-header bg-primary text-center text-white">
                 <h3>@Model.Asset.Description</h3>
@@ -37,15 +37,32 @@
             </div>
 
             <div class="card-footer text-center">
-                <a asp-controller="Assets" asp-action="Index" class="btn btn-secondary col-md-3">Cancel</a>
-                <a asp-controller="Assets" asp-action="Edit" asp-route-id="@Model.Asset.Id" class="btn btn-primary col-md-3">Edit</a>
-                <a asp-controller="Assets" asp-action="Delete" asp-route-id="@Model.Asset.Id" class="btn btn-danger col-md-3">Delete</a>
+                <form method="post" asp-controller="Assets" asp-action="Delete" asp-route-id="@Model.Asset.Id">
+
+                    <a asp-controller="Assets" asp-action="Index" class="btn btn-secondary col-md-3">Cancel</a>
+                    <a asp-controller="Assets" asp-action="Edit" asp-route-id="@Model.Asset.Id" class="btn btn-primary col-md-3">Edit</a>
+                    
+                    <span id="deleteButtonSpan_@Model.Asset.Id">
+                        <a class="btn btn-danger col-md-3" onclick="confirmDelete('@Model.Asset.Id', true)" >Delete</a>
+                    </span>
+
+                    <span id="deleteConfirmSpan_@Model.Asset.Id" class="collapse">
+                        <span class="text-danger">
+                            Are you sure about deleting this asset?
+                        </span>
+                        <a href="#" class="btn btn-primary" onclick="confirmDelete('@Model.Asset.Id', false)">No</a>
+                        <button type="submit" class="btn btn-danger">yes</button>
+                    </span>
+
+                </form>
             </div>
         </div>
     </div>
 </div>
 
-
+@section Scripts{
+    <script src="~/js/confirmdelete.js"></script>
+}
 
 
 @* <div> *@
