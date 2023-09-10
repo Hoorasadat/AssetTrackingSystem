@@ -48,7 +48,6 @@ namespace AssetTrackingSystem.BLL.Repositories
 
         public async Task<IList<Asset>> GetAllAssets()
         {
-            /*return await _context.Assets.Include(a => a.AssetType).Include(a => a.Model).Include(a => a.Manufacturer).ToListAsync();*/
             return await _context.Assets.ToListAsync();
         }
 

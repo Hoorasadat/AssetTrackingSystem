@@ -1,4 +1,5 @@
 ﻿using AssetTrackingSystem.BLL.Interfaces;
+using AssetTrackingSystem.Data.Data;
 using AssetTrackingSystem.Lib.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,15 @@ namespace AssetTrackingSystem.BLL.Repositories
 {
     public class SQLAssetTypeRepository : IAssetTypeRepository
     {
+        private readonly ApplicationDbContext _context;
+
+        public SQLAssetTypeRepository(ApplicationDbContext context)
+        {
+            _context = context;
+
+        }
+
+
         public Task<AssetType> AddAssetType(AssetType newAssetType)
         {
             throw new NotImplementedException();

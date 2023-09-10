@@ -24,6 +24,13 @@ namespace AssetTrackingSystem.Data.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Configure the cascade behavior for the Assets table
+            modelBuilder.Entity<Asset>()
+                .HasOne(a => a.Model)
+                .WithMany(m => m.Assets)
+                .HasForeignKey(a => a.ModelId)
+                .OnDelete(DeleteBehavior.NoAction); // Specify ON DELETE NO ACTION or another behavior
+
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Asset>().HasData(
@@ -112,16 +119,16 @@ namespace AssetTrackingSystem.Data.Data
                 },
 
                 new Asset()
-            {
-                Id = 8,
-                TagNumber = "TAG008",
-                AssetTypeId = 2, // Laptop
-                ManufacturerId = 4, // Apple
-                ModelId = 8, // Apple MacBook Pro
-                Description = "Apple MacBook Pro Laptop",
-                AssignedTo = "EMP004",
-                SerialNumber = "SN008"
-            },
+                {
+                    Id = 8,
+                    TagNumber = "TAG008",
+                    AssetTypeId = 2, // Laptop
+                    ManufacturerId = 4, // Apple
+                    ModelId = 8, // Apple MacBook Pro
+                    Description = "Apple MacBook Pro Laptop",
+                    AssignedTo = "EMP004",
+                    SerialNumber = "SN008"
+                },
 
                 new Asset()
                 {
@@ -297,7 +304,7 @@ namespace AssetTrackingSystem.Data.Data
                     TagNumber = "TAG023",
                     AssetTypeId = 6, // Desk Phone
                     ManufacturerId = 9, // Cisco
-                    ModelId = 24, // Cisco SPA525G2
+                    ModelId = 23, // Cisco SPA525G2
                     Description = "Cisco SPA525G2 Desk Phone",
                     AssignedTo = "EMP003",
                     SerialNumber = "SN023"
@@ -351,6 +358,7 @@ namespace AssetTrackingSystem.Data.Data
                 new { Id = 22, Name = "Polycom SoundPoint331", ManufacturerID = 8 },
                 new { Id = 23, Name = "Cisco SPA525G2", ManufacturerID = 9 }
             );
+
         }
     }
 }

@@ -12,13 +12,14 @@ namespace AssetTrackingSystem.BLL.Repositories
 {
     public class SQLAssetRepository : IAssetRepository
     {
-        private readonly MemoryDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public SQLAssetRepository(MemoryDbContext context) 
+        public SQLAssetRepository(ApplicationDbContext context) 
         { 
             _context = context;
             
         }
+
 
         public async Task<Asset> AddAsset(Asset newAsset)
         {
@@ -27,6 +28,7 @@ namespace AssetTrackingSystem.BLL.Repositories
 
             return asset.Entity;
         }
+
 
         public async Task<Asset> DeleteAsset(int id)
         {
@@ -43,15 +45,19 @@ namespace AssetTrackingSystem.BLL.Repositories
             return deletedAsset;
         }
 
+
         public async Task<IList<Asset>> GetAllAssets()
         {
+            /*return await _context.Assets.Include(a => a.AssetType).Include(a => a.Model).Include(a => a.Manufacturer).ToListAsync();*/
             return await _context.Assets.ToListAsync();
         }
+
 
         public async Task<Asset> GetAssetsById(int id)
         {
             return await _context.Assets.FirstOrDefaultAsync(x => x.Id == id);
         }
+
 
         public async Task<Asset> UpdateAsset(Asset updatedAsset)
         {

@@ -1,4 +1,5 @@
 ﻿using AssetTrackingSystem.BLL.Interfaces;
+using AssetTrackingSystem.Data.Data;
 using AssetTrackingSystem.Lib.Models;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,16 @@ namespace AssetTrackingSystem.BLL.Repositories
 {
     public class SQLManufacturerRepository : IManufacturerRepository
     {
+
+        private readonly ApplicationDbContext _context;
+
+        public SQLManufacturerRepository(ApplicationDbContext context)
+        {
+            _context = context;
+
+        }
+
+
         public Task<Manufacturer> AddManufacturer(Manufacturer newManufacturer)
         {
             throw new NotImplementedException();
