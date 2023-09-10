@@ -17,7 +17,6 @@ namespace AssetTrackingSystem.BLL.Repositories
         public SQLAssetRepository(ApplicationDbContext context) 
         { 
             _context = context;
-            
         }
 
 
@@ -48,14 +47,13 @@ namespace AssetTrackingSystem.BLL.Repositories
 
         public async Task<IList<Asset>> GetAllAssets()
         {
-            /*return await _context.Assets.Include(a => a.AssetType).Include(a => a.Model).Include(a => a.Manufacturer).ToListAsync();*/
-            return await _context.Assets.ToListAsync();
+            return await _context.Assets.Include(a => a.AssetType).Include(a => a.Model).Include(a => a.Manufacturer).ToListAsync();
         }
 
 
         public async Task<Asset> GetAssetsById(int id)
         {
-            return await _context.Assets.FirstOrDefaultAsync(x => x.Id == id);
+            return await _context.Assets.Include(a => a.AssetType).Include(a => a.Model).Include(a => a.Manufacturer).FirstOrDefaultAsync(x => x.Id == id);
         }
 
 
@@ -80,6 +78,5 @@ namespace AssetTrackingSystem.BLL.Repositories
             await _context.SaveChangesAsync();
             return AssetToUpdate;
         }
-
     }
 }

@@ -17,9 +17,9 @@
     <thead class="bg-primary text-white">
         <tr>
             <th>Tag Number</th>
-            <th>Asset Type Id</th>
-            <th>Manufacturer Id</th>
-            <th>Model Id</th>
+            <th>Asset Type</th>
+            <th>Manufacturer</th>
+            <th>Model</th>
             <th>Description</th>
             <th>Assigned To</th>
             <th>Serial Number</th>
@@ -35,9 +35,9 @@
         {
             <tr>
                 <td>@asset.TagNumber</td>
-                <td>@asset.AssetTypeId</td>
-                <td>@asset.ManufacturerId</td>
-                <td>@asset.ModelId</td>
+                <td>@asset.AssetType.Name</td>
+                <td>@asset.Manufacturer.Name</td>
+                <td>@asset.Model.Name</td>
                 <td>@asset.Description</td>
                 <td>@asset.AssignedTo</td>
                 <td>@asset.SerialNumber</td>

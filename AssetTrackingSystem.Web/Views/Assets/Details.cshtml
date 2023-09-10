@@ -29,9 +29,9 @@
             <div class="card-body">
                 <h4>ID: @Model.Asset.Id</h4>
                 <h4>Tag Number: @Model.Asset.TagNumber</h4>
-                <h4>Asset Type: @Model.Asset.AssetTypeId</h4>
-                <h4>Manufacturer: @Model.Asset.ManufacturerId</h4>
-                <h4>Model: @Model.Asset.ModelId</h4>
+                <h4>Asset Type: @Model.Asset.AssetType.Name</h4>
+                <h4>Manufacturer: @Model.Asset.Manufacturer.Name</h4>
+                <h4>Model: @Model.Asset.Model.Name</h4>
                 <h4>Assigned To: @Model.Asset.AssignedTo</h4>
                 <h4>Serial Number: @Model.Asset.SerialNumber</h4>
             </div>
