@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34018.315
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetTrackingSystem.Web", "AssetTrackingSystem.Web\AssetTrackingSystem.Web.csproj", "{14CA750E-7659-4503-99A9-27BA25403600}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetTrackingSystem.Web", "AssetTrackingSystem.Web\AssetTrackingSystem.Web.csproj", "{14CA750E-7659-4503-99A9-27BA25403600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetTrackingSystem.Lib", "AssetTrackingSystem.Lib\AssetTrackingSystem.Lib.csproj", "{A1BC9539-FB91-45B6-BF32-E8D424B96763}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetTrackingSystem.Lib", "AssetTrackingSystem.Lib\AssetTrackingSystem.Lib.csproj", "{A1BC9539-FB91-45B6-BF32-E8D424B96763}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetTrackingSystem.Data", "AssetTrackingSystem.Data\AssetTrackingSystem.Data.csproj", "{77FE1C7B-2D75-4590-AFB6-57ADDA521FA2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetTrackingSystem.Data", "AssetTrackingSystem.Data\AssetTrackingSystem.Data.csproj", "{77FE1C7B-2D75-4590-AFB6-57ADDA521FA2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetTrackingSystem.BLL", "AssetTrackingSystem.BLL\AssetTrackingSystem.BLL.csproj", "{C08C7153-830C-4763-A453-C78B4028E2F4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AssetTrackingSystem.BLL", "AssetTrackingSystem.BLL\AssetTrackingSystem.BLL.csproj", "{C08C7153-830C-4763-A453-C78B4028E2F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetTrackingSystem.API", "AssetTrackingSystem.API\AssetTrackingSystem.API.csproj", "{E8516DB8-108C-40FE-AC8B-C36F93312732}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C08C7153-830C-4763-A453-C78B4028E2F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C08C7153-830C-4763-A453-C78B4028E2F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C08C7153-830C-4763-A453-C78B4028E2F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8516DB8-108C-40FE-AC8B-C36F93312732}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8516DB8-108C-40FE-AC8B-C36F93312732}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8516DB8-108C-40FE-AC8B-C36F93312732}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8516DB8-108C-40FE-AC8B-C36F93312732}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
