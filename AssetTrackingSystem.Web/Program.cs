@@ -17,7 +17,7 @@ namespace AssetTrackingSystem
             //builder.Services.AddDbContext<MemoryDbContext>();
             //builder.Services.AddScoped<IAssetRepository, MockAssetRepository>();
 
-            builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            builder.Services.AddDbContextPool<ApplicationDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("AssetConnection")));
 
             builder.Services.AddScoped<IAssetRepository, SQLAssetRepository>();
             builder.Services.AddScoped<IAssetTypeRepository, SQLAssetTypeRepository>();
