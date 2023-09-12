@@ -18,14 +18,19 @@ namespace AssetTrackingSystem.API.Repositories
         {
             _context = context;
         }
+
+
+
         public async Task<IList<Employee>> GetAllEmployees()
         {
             return await _context.Employees.ToListAsync();
         }
 
-        public Task<Employee> GetEmployeeById(int id)
+
+
+        public async Task<Employee> GetEmployeeByEmployeeNumber(string employeeNumber)
         {
-            throw new NotImplementedException();
+            return await _context.Employees.FirstOrDefaultAsync(e => e.EmployeeNumber == employeeNumber);
         }
     }
 }

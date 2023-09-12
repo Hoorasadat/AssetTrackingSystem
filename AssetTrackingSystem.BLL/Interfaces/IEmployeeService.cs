@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace AssetTrackingSystem.BLL.Interfaces
 {
-    public interface IEmployeeRepository
+    public interface IEmployeeService
     {
         Task<IList<Employee>> GetAllEmployees();
-        Task<Employee> GetEmployeeById(int id);
+        Task<Employee> GetEmployeeByEmployeeNumber(string employeeNumber);
     }
 }

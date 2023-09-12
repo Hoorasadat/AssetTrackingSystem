@@ -15,13 +15,15 @@ namespace AssetTrackingSystem.Web.Controllers
         private readonly IAssetTypeRepository _assetTypeRepository;
         private readonly IManufacturerRepository _manufacturerRepository;
         private readonly IModelRepository _modelRepository;
+        private readonly IEmployeeService _employeeService;
 
-        public AssetsController(IAssetRepository assetRepository, IAssetTypeRepository assetTypeRepository, IManufacturerRepository manufacturerRepository, IModelRepository modelRepository)
+        public AssetsController(IAssetRepository assetRepository, IAssetTypeRepository assetTypeRepository, IManufacturerRepository manufacturerRepository, IModelRepository modelRepository, IEmployeeService employeeService)
         {
             _assetRepository = assetRepository;
             _assetTypeRepository = assetTypeRepository;
             _manufacturerRepository = manufacturerRepository;
             _modelRepository = modelRepository;
+            _employeeService = employeeService;
         }
 
 
@@ -30,7 +32,33 @@ namespace AssetTrackingSystem.Web.Controllers
         public async Task<ActionResult> Index()
         {
             IList<Asset> assets = await _assetRepository.GetAllAssets();
-            return View(assets);
+
+            IList<DetailsAssetViewModel> detailsAssetVMList = new List<DetailsAssetViewModel>();
+
+            foreach (var asset in assets)
+            {
+                Employee employee = new Employee();
+
+                if (asset.AssignedTo == "")
+                {
+                    employee = null;
+                }
+                else
+                {
+                    employee = await GetEmployeeAPI(asset.AssignedTo);
+                }
+                
+
+                DetailsAssetViewModel detailsAssetVM = new DetailsAssetViewModel()
+                {
+                    Asset = asset,
+                    EmployeeFullName = employee == null ? null : $"{employee.FirstName } { employee.LastName }"
+                };
+
+                detailsAssetVMList.Add(detailsAssetVM);
+            }
+
+            return View(detailsAssetVMList);
         }
 
 
@@ -60,6 +88,12 @@ namespace AssetTrackingSystem.Web.Controllers
                 Asset = asset,
                 PageHeader = "Asset Details"
             };
+
+            await LoadEmployees();
+
+            if (asset.AssignedTo != "")
+                await LoadEmployee(asset.AssignedTo);
+
             return View(assetVM);
         }
 
@@ -72,6 +106,8 @@ namespace AssetTrackingSystem.Web.Controllers
             await GetAssetTypes();
             await GetManufacturers();
             await GetModels();
+            
+            await LoadEmployees();
 
             return View();
         }
@@ -133,6 +169,9 @@ namespace AssetTrackingSystem.Web.Controllers
             await GetAssetTypes();
             await GetManufacturers();
             await GetModels();
+            await LoadEmployees();
+            if (asset.AssignedTo != "")
+                await LoadEmployee(asset.AssignedTo);
 
             return View(assetVM);
         }
@@ -229,6 +268,36 @@ namespace AssetTrackingSystem.Web.Controllers
             ViewData["Models"] = models.Select(m => new SelectListItem { Text = m.Name, Value = m.Id.ToString() });
 
             return View();
+        }
+
+
+        private async Task<IList<Employee>> GetEmployeesListAPI()
+        {
+            return await _employeeService.GetAllEmployees();
+        }
+
+
+        public async Task LoadEmployees()
+        {
+            IList<Employee> employees = await GetEmployeesListAPI();
+
+            ViewData["Employees"] = employees.Select(e => new SelectListItem
+            {
+                Text = $"{e.FirstName} {e.LastName}",
+                Value = e.EmployeeNumber
+            });
+        }
+
+
+        public async Task<Employee> GetEmployeeAPI(string employeeNumber)
+        {
+            return await _employeeService.GetEmployeeByEmployeeNumber(employeeNumber);
+        }
+
+
+        public async Task LoadEmployee(string employeeNumber)
+        {
+            ViewData["Employee"] = await GetEmployeeAPI(employeeNumber);
         }
     }
 }

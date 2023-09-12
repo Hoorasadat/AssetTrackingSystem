@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AssetTrackingSystem.BLL.Interfaces
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentService
     {
         Task<IList<Department>> GetAllDepartments();
         Task<Department> GetDepartmentById(int id);

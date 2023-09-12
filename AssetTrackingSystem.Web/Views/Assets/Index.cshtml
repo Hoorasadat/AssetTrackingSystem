@@ -1,4 +1,4 @@
-﻿@model IList<Asset>
+﻿@model IList<DetailsAssetViewModel>
 
 @{
     ViewData["Title"] = "List of Assets";
@@ -31,27 +31,27 @@
         @foreach (var asset in Model)
         {
             <tr>
-                <td>@asset.TagNumber</td>
-                <td>@asset.AssetType.Name</td>
-                <td>@asset.Manufacturer.Name</td>
-                <td>@asset.Model.Name</td>
-                <td>@asset.Description</td>
-                <td>@asset.AssignedTo</td>
-                <td>@asset.SerialNumber</td>
+                <td>@asset.Asset.TagNumber</td>
+                <td>@asset.Asset.AssetType.Name</td>
+                <td>@asset.Asset.Manufacturer.Name</td>
+                <td>@asset.Asset.Model.Name</td>
+                <td>@asset.Asset.Description</td>
+                <td>@asset.EmployeeFullName</td>
+                <td>@asset.Asset.SerialNumber</td>
                 <td>
-                    <form method="post" asp-controller="Assets" asp-action="Delete" asp-route-id="@asset.Id">
-                        <a asp-controller="Assets" asp-action="Details" asp-route-id="@asset.Id">View</a>
-                        <a asp-controller="Assets" asp-action="Edit" asp-route-id="@asset.Id">Edit</a>
-                        <span id="deleteButtonSpan_@asset.Id">
-                            <a href="#" onclick="confirmDelete('@asset.Id', true); return false;">Delete</a>
+                    <form method="post" asp-controller="Assets" asp-action="Delete" asp-route-id="@asset.Asset.Id">
+                        <a asp-controller="Assets" asp-action="Details" asp-route-id="@asset.Asset.Id">View</a>
+                        <a asp-controller="Assets" asp-action="Edit" asp-route-id="@asset.Asset.Id">Edit</a>
+                        <span id="deleteButtonSpan_@asset.Asset.Id">
+                            <a href="#" onclick="confirmDelete('@asset.Asset.Id', true); return false;">Delete</a>
                         </span>
 
                         <div>
-                            <span id="deleteConfirmSpan_@asset.Id" class="collapse">
+                            <span id="deleteConfirmSpan_@asset.Asset.Id" class="collapse">
                                 <span class="text-danger">
                                     Are you sure?
                                 </span>
-                                <a href="#" class="btn btn-primary" onclick="confirmDelete('@asset.Id', false); return false;">No</a>
+                                <a href="#" class="btn btn-primary" onclick="confirmDelete('@asset.Asset.Id', false); return false;">No</a>
                                 <button type="submit" class="btn btn-danger">yes</button>
                             </span>
                         </div>

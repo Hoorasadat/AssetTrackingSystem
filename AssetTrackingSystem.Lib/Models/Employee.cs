@@ -16,7 +16,7 @@ namespace AssetTrackingSystem.Lib.Models
         public string EmployeeNumber { get; set; }
 
         [MaxLength(10)]
-        public string Firstname { get; set; }
+        public string FirstName { get; set; }
 
         [MaxLength(10)]
         public string LastName { get; set; }

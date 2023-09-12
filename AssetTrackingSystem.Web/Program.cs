@@ -24,6 +24,8 @@ namespace AssetTrackingSystem
             builder.Services.AddScoped<IManufacturerRepository, SQLManufacturerRepository>();
             builder.Services.AddScoped<IModelRepository, SQLModelRepository>();
 
+            builder.Services.AddHttpClient<IEmployeeService, APIEmployeeService>(client =>
+                client.BaseAddress = new Uri("https://localhost:7217/api/employees/"));
 
             var app = builder.Build();
 

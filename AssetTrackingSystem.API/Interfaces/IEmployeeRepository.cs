@@ -10,6 +10,6 @@ namespace AssetTrackingSystem.API.Interfaces
     public interface IEmployeeRepository
     {
         Task<IList<Employee>> GetAllEmployees();
-        Task<Employee> GetEmployeeById(int id);
+        Task<Employee> GetEmployeeByEmployeeNumber(string employeeNumber);
     }
 }
