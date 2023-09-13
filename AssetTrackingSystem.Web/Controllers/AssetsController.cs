@@ -148,10 +148,39 @@ namespace AssetTrackingSystem.Web.Controllers
         {
             try
             {
-                if(!ModelState.IsValid)
+                if (!ModelState.IsValid)
                 {
                     return View();
                 }
+
+
+                IList<Asset> assetsList = await _assetRepository.GetAllAssets();
+
+                if (!string.IsNullOrEmpty(createAssetVM.TagNumber))
+                {
+                    var asset_TagNumber = assetsList.Where(a => a.TagNumber == createAssetVM.TagNumber).ToList();
+
+                    if (asset_TagNumber.Any())
+                    {
+                        ModelState.AddModelError(string.Empty, $"TagNumber = {createAssetVM.TagNumber} is already taken!");
+                        //return View("Create", createAssetVM);
+                        return View();
+                    }
+                }
+
+
+                if (!string.IsNullOrEmpty(createAssetVM.SerialNumber))
+                {
+                    var asset_SerialNumber = assetsList.Where(a => a.SerialNumber == createAssetVM.SerialNumber).ToList();
+
+                    if (asset_SerialNumber.Any())
+                    {
+                        ModelState.AddModelError(string.Empty, $"SerialNumber = {createAssetVM.SerialNumber} is already taken!");
+                        //return View("Create", createAssetVM);
+                        return View();
+                    }
+                }
+
 
                 Asset asset = new Asset()
                 {
