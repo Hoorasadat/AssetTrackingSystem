@@ -27,7 +27,7 @@ namespace AssetTrackingSystem.Web.ViewModels.Assets
         public string? Description { get; set; }
 
 
-        [Display(Name = "Asset To")]
+        [Display(Name = "Assigned To")]
         public string? AssignedTo { get; set; }
 
 

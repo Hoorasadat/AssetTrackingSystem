@@ -23,9 +23,9 @@ namespace AssetTrackingSystem.API.Repositories
             return await _context.Departments.ToListAsync();
         }
 
-        public Task<Department> GetDepartmentById(int id)
+        public async Task<Department> GetDepartmentById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.Departments.FirstOrDefaultAsync(d => d.Id == id);
         }
     }
 }
