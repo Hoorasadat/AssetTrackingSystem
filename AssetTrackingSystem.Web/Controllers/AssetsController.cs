@@ -57,27 +57,7 @@ namespace AssetTrackingSystem.Web.Controllers
 
             foreach (var asset in assets)
             {
-                Employee employee = new Employee();
-                Department department = new Department();
-
-                if (asset.AssignedTo == "")
-                {
-                    employee = null;
-                    department = null;
-                }
-                else
-                {
-                    employee = await GetEmployeeAPI(asset.AssignedTo);
-                    department = await GetDepartmentAPI(employee.DepartmentID);
-                }
-                
-
-                DetailsAssetViewModel detailsAssetVM = new DetailsAssetViewModel()
-                {
-                    Asset = asset,
-                    EmployeeFullName = employee == null ? null : $"{employee.FirstName } { employee.LastName }",
-                    DepartmentLocation = employee == null ? null : department.Location
-                };
+                DetailsAssetViewModel detailsAssetVM = await PopulateAssetDetails(asset, "List od Assets");
 
                 detailsAssetVMList.Add(detailsAssetVM);
             }
@@ -111,17 +91,9 @@ namespace AssetTrackingSystem.Web.Controllers
             //ViewData["PageTitle"] = "Asset Details";
             //return View(asset);
 
-            DetailsAssetViewModel assetVM = new DetailsAssetViewModel()
-            {
-                Asset = asset,
-                PageHeader = "Asset Details"
-            };
+            DetailsAssetViewModel detailsAssetVM = await PopulateAssetDetails(asset, "Asset Details");
 
-            if (asset.AssignedTo != "")
-                await LoadAssignmentInfo(asset.AssignedTo);
-
-
-            return View(assetVM);
+            return View(detailsAssetVM);
         }
 
 
@@ -130,11 +102,7 @@ namespace AssetTrackingSystem.Web.Controllers
         [HttpGet]
         public async Task<ActionResult> Create()
         {
-            await GetAssetTypes();
-            await GetManufacturers();
-            await GetModels();
-            
-            await LoadEmployees();
+            await LoadAllDropdownLists();
 
             return View();
         }
@@ -163,7 +131,7 @@ namespace AssetTrackingSystem.Web.Controllers
                     if (asset_TagNumber.Any())
                     {
                         ModelState.AddModelError(string.Empty, $"TagNumber = {createAssetVM.TagNumber} is already taken!");
-                        //return View("Create", createAssetVM);
+                        await LoadAllDropdownLists();
                         return View();
                     }
                 }
@@ -176,7 +144,7 @@ namespace AssetTrackingSystem.Web.Controllers
                     if (asset_SerialNumber.Any())
                     {
                         ModelState.AddModelError(string.Empty, $"SerialNumber = {createAssetVM.SerialNumber} is already taken!");
-                        //return View("Create", createAssetVM);
+                        await LoadAllDropdownLists();
                         return View();
                     }
                 }
@@ -222,12 +190,7 @@ namespace AssetTrackingSystem.Web.Controllers
                 SerialNumber = asset.SerialNumber
             };
 
-            await GetAssetTypes();
-            await GetManufacturers();
-            await GetModels();
-            await LoadEmployees();
-            if (asset.AssignedTo != "")
-                await LoadAssignmentInfo(asset.AssignedTo);
+            await LoadAllDropdownLists();
 
             return View(assetVM);
         }
@@ -244,6 +207,34 @@ namespace AssetTrackingSystem.Web.Controllers
                 if(!ModelState.IsValid)
                 {
                     return View();
+                }
+
+                    IList<Asset> assetsList = await _assetRepository.GetAllAssets();
+                    var otherAssets = assetsList.Where(a => a.Id != editeAssetVM.Id).ToList();
+
+                if (!string.IsNullOrEmpty(editeAssetVM.TagNumber))
+                {
+                    var asset_TagNumber = otherAssets.Where(a => a.TagNumber == editeAssetVM.TagNumber).ToList();
+
+                    if (asset_TagNumber.Any())
+                    {
+                        ModelState.AddModelError(string.Empty, $"TagNumber = {editeAssetVM.TagNumber} is already taken!");
+                        await LoadAllDropdownLists();
+                        return View(editeAssetVM);
+                    }
+                }
+
+
+                if (!string.IsNullOrEmpty(editeAssetVM.SerialNumber))
+                {
+                    var asset_SerialNumber = otherAssets.Where(a => a.SerialNumber == editeAssetVM.SerialNumber).ToList();
+
+                    if (asset_SerialNumber.Any())
+                    {
+                        ModelState.AddModelError(string.Empty, $"SerialNumber = {editeAssetVM.SerialNumber} is already taken!");
+                        await LoadAllDropdownLists();
+                        return View(editeAssetVM);
+                    }
                 }
 
                 Asset asset = new Asset()
@@ -352,22 +343,22 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
-        public async Task<IList<Department>> GetDepartmentListAPI()
-        {
-            return await _departmentService.GetAllDepartments();
-        }
+        //public async Task<IList<Department>> GetDepartmentListAPI()
+        //{
+        //    return await _departmentService.GetAllDepartments();
+        //}
 
 
-        public async Task LoadDepartments()
-        {
-            IList<Department> departments = await GetDepartmentListAPI();
+        //public async Task LoadDepartments()
+        //{
+        //    IList<Department> departments = await GetDepartmentListAPI();
 
-            ViewData["Departments"] = departments.Select(d => new SelectListItem
-            {
-                Text = d.Name,
-                Value = d.Id.ToString()
-            });
-        }
+        //    ViewData["Departments"] = departments.Select(d => new SelectListItem
+        //    {
+        //        Text = d.Name,
+        //        Value = d.Id.ToString()
+        //    });
+        //}
 
 
         public async Task<Department> GetDepartmentAPI(int id)
@@ -376,13 +367,41 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
-        public async Task LoadAssignmentInfo (string employeeNumber)
+        private async Task<DetailsAssetViewModel> PopulateAssetDetails(Asset asset, string PageHeader)
         {
-            Employee employee = await GetEmployeeAPI(employeeNumber);
-            Department department = await GetDepartmentAPI(employee.DepartmentID);
+            Employee employee = new Employee();
+            Department department = new Department();
 
-            ViewData["Employee"] = employee;
-            ViewData["Department"] = department;
+            if (string.IsNullOrEmpty(asset.AssignedTo))
+            {
+                employee = null;
+                department = null;
+            }
+            else
+            {
+                employee = await GetEmployeeAPI(asset.AssignedTo);
+                department = await GetDepartmentAPI(employee.DepartmentID);
+            }
+
+
+            DetailsAssetViewModel detailsAssetVM = new DetailsAssetViewModel()
+            {
+                Asset = asset,
+                EmployeeFullName = employee == null ? null : $"{employee.FirstName} {employee.LastName}",
+                DepartmentLocation = employee == null ? null : department.Location,
+                PageHeader = PageHeader
+            };
+            return detailsAssetVM;
+        }
+
+
+        private async Task LoadAllDropdownLists()
+        {
+            await GetAssetTypes();
+            await GetManufacturers();
+            await GetModels();
+
+            await LoadEmployees();
         }
     }
 }

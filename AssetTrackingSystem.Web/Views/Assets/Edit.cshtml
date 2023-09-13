@@ -5,7 +5,7 @@
 }
 
 
-<h1 class="text-center text-primary fw-bold m-5">Updating @Model.Description</h1>
+@* <h1 class="text-center text-primary fw-bold m-5">Updating @Model.Description</h1> *@
 
 
 <form method="post" asp-controller="Assets" asp-action="Edit" enctype="multipart/form-data">
@@ -64,7 +64,7 @@
         <div class="col-md-6 mb-2 mt-2">
             <select asp-for="AssignedTo" class="form-control form-select" asp-items="@ViewBag.Employees">
                 @{
-                    if (Model.AssignedTo == "")
+                    if (string.IsNullOrEmpty(Model.AssignedTo))
                     {
                         <option value="">Select the Employee</option>
                     }
