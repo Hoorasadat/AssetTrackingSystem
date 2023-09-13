@@ -41,8 +41,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Assets" asp-action="Index" style="font-size: 18px; font-weight: bold;">Asset</a>
                         </li>
-                    
+
                         <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Assets" asp-action="Create" style="font-size: 18px; font-weight: bold;">Add Asset</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-controller="Assets" asp-action="Create" style="font-size: 18px; font-weight: bold;">Assignments</a>
+                        </li>
+                        @* <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="AssetTypes" asp-action="Index" style="font-size: 18px; font-weight: bold;">Asset Types</a>
                         </li>
                     
@@ -52,12 +59,13 @@
                    
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-controller="Manufacturers" asp-action="Index" style="font-size: 18px; font-weight: bold;">Manufacturers</a>
-                        </li>
+                        </li> *@
                     </ul>
                 </div>
             </nav>
         </header>
     </div>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -69,6 +77,7 @@
             &copy; 2023 - AssetTrackingSystem.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
