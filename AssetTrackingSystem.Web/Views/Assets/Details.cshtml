@@ -33,6 +33,7 @@
                 <h4>Manufacturer: @Model.Asset.Manufacturer.Name</h4>
                 <h4>Model: @Model.Asset.Model.Name</h4>
                 <h4>Assigned To: @ViewBag.Employee.FirstName @ViewBag.Employee.LastName</h4>
+                <h4>Department Location: @ViewBag.Department.Location</h4>
                 <h4>Serial Number: @Model.Asset.SerialNumber</h4>
             </div>
 
@@ -43,7 +44,7 @@
                     <a asp-controller="Assets" asp-action="Edit" asp-route-id="@Model.Asset.Id" class="btn btn-primary col-md-3">Edit</a>
                     
                     <span id="deleteButtonSpan_@Model.Asset.Id">
-                        <a class="btn btn-danger col-md-3" onclick="confirmDelete('@Model.Asset.Id', true)" >Delete</a>
+                        <a class="btn btn-danger col-md-3" onclick="confirmDelete('@Model.Asset.Id', true)">Delete</a>
                     </span>
 
                     <span id="deleteConfirmSpan_@Model.Asset.Id" class="collapse">

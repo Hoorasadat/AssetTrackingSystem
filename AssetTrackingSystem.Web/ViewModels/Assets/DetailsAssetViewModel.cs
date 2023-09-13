@@ -8,6 +8,8 @@ namespace AssetTrackingSystem.Web.ViewModels.Assets
 
         public string EmployeeFullName { get; set; }
 
+        public string DepartmentLocation { get; set; }
+
         public string? PageHeader { get; set; }
     }
 }

@@ -27,7 +27,7 @@ namespace AssetTrackingSystem.BLL.Repositories
 
         public async Task<Department> GetDepartmentById(int id)
         {
-            return await
+            return await _httpClient.GetFromJsonAsync<Department>($"getdepartment/{id}");
         }
     }
 }

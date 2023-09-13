@@ -27,6 +27,9 @@ namespace AssetTrackingSystem
             builder.Services.AddHttpClient<IEmployeeService, APIEmployeeService>(client =>
                 client.BaseAddress = new Uri("https://localhost:7217/api/employees/"));
 
+            builder.Services.AddHttpClient<IDepartmentService, APIDepartmentService>(client =>
+                client.BaseAddress = new Uri("https://localhost:7217/api/departments/"));
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
