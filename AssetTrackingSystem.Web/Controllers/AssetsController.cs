@@ -6,6 +6,7 @@ using AssetTrackingSystem.Web.ViewModels.Assets;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Reflection;
 
 namespace AssetTrackingSystem.Web.Controllers
 {
@@ -16,47 +17,74 @@ namespace AssetTrackingSystem.Web.Controllers
         private readonly IManufacturerRepository _manufacturerRepository;
         private readonly IModelRepository _modelRepository;
         private readonly IEmployeeService _employeeService;
+        private readonly IDepartmentService _departmentService;
 
-        public AssetsController(IAssetRepository assetRepository, IAssetTypeRepository assetTypeRepository, IManufacturerRepository manufacturerRepository, IModelRepository modelRepository, IEmployeeService employeeService)
+        public AssetsController(IAssetRepository assetRepository, IAssetTypeRepository assetTypeRepository, IManufacturerRepository manufacturerRepository, IModelRepository modelRepository, IEmployeeService employeeService, IDepartmentService departmentService)
         {
             _assetRepository = assetRepository;
             _assetTypeRepository = assetTypeRepository;
             _manufacturerRepository = manufacturerRepository;
             _modelRepository = modelRepository;
             _employeeService = employeeService;
+            _departmentService = departmentService;
         }
 
 
 
+
         // GET: AssetController
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string? assignStatusFltr, string? employeeFltr, int? assetTypeFltr)
         {
             IList<Asset> assets = await _assetRepository.GetAllAssets();
+
+            if (!string.IsNullOrEmpty(assignStatusFltr))
+            {
+                if (assignStatusFltr == "assigned")
+                    assets = assets.Where(a => !string.IsNullOrEmpty(a.AssignedTo)).ToList();
+
+                if (assignStatusFltr == "unassigned")
+                    assets = assets.Where(a => string.IsNullOrEmpty(a.AssignedTo)).ToList();
+            }
+
+            if (!string.IsNullOrEmpty(employeeFltr))
+                assets = assets.Where(a => a.AssignedTo == employeeFltr).ToList();
+
+            if (assetTypeFltr != null)
+                assets = assets.Where(a => a.AssetTypeId == assetTypeFltr).ToList();
+
 
             IList<DetailsAssetViewModel> detailsAssetVMList = new List<DetailsAssetViewModel>();
 
             foreach (var asset in assets)
             {
                 Employee employee = new Employee();
+                Department department = new Department();
 
                 if (asset.AssignedTo == "")
                 {
                     employee = null;
+                    department = null;
                 }
                 else
                 {
                     employee = await GetEmployeeAPI(asset.AssignedTo);
+                    department = await GetDepartmentAPI(employee.DepartmentID);
                 }
                 
 
                 DetailsAssetViewModel detailsAssetVM = new DetailsAssetViewModel()
                 {
                     Asset = asset,
-                    EmployeeFullName = employee == null ? null : $"{employee.FirstName } { employee.LastName }"
+                    EmployeeFullName = employee == null ? null : $"{employee.FirstName } { employee.LastName }",
+                    DepartmentLocation = employee == null ? null : department.Location
                 };
 
                 detailsAssetVMList.Add(detailsAssetVM);
             }
+
+            await GetAssetTypes();
+
+            await LoadEmployees();
 
             return View(detailsAssetVMList);
         }
@@ -89,10 +117,9 @@ namespace AssetTrackingSystem.Web.Controllers
                 PageHeader = "Asset Details"
             };
 
-            await LoadEmployees();
-
             if (asset.AssignedTo != "")
-                await LoadEmployee(asset.AssignedTo);
+                await LoadAssignmentInfo(asset.AssignedTo);
+
 
             return View(assetVM);
         }
@@ -171,7 +198,7 @@ namespace AssetTrackingSystem.Web.Controllers
             await GetModels();
             await LoadEmployees();
             if (asset.AssignedTo != "")
-                await LoadEmployee(asset.AssignedTo);
+                await LoadAssignmentInfo(asset.AssignedTo);
 
             return View(assetVM);
         }
@@ -271,6 +298,7 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
+
         private async Task<IList<Employee>> GetEmployeesListAPI()
         {
             return await _employeeService.GetAllEmployees();
@@ -295,9 +323,37 @@ namespace AssetTrackingSystem.Web.Controllers
         }
 
 
-        public async Task LoadEmployee(string employeeNumber)
+        public async Task<IList<Department>> GetDepartmentListAPI()
         {
-            ViewData["Employee"] = await GetEmployeeAPI(employeeNumber);
+            return await _departmentService.GetAllDepartments();
+        }
+
+
+        public async Task LoadDepartments()
+        {
+            IList<Department> departments = await GetDepartmentListAPI();
+
+            ViewData["Departments"] = departments.Select(d => new SelectListItem
+            {
+                Text = d.Name,
+                Value = d.Id.ToString()
+            });
+        }
+
+
+        public async Task<Department> GetDepartmentAPI(int id)
+        {
+            return await _departmentService.GetDepartmentById(id);
+        }
+
+
+        public async Task LoadAssignmentInfo (string employeeNumber)
+        {
+            Employee employee = await GetEmployeeAPI(employeeNumber);
+            Department department = await GetDepartmentAPI(employee.DepartmentID);
+
+            ViewData["Employee"] = employee;
+            ViewData["Department"] = department;
         }
     }
 }
