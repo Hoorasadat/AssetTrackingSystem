@@ -35,9 +35,5 @@ namespace AssetTrackingSystem.Web.ViewModels.Assets
         [Required(ErrorMessage = "Serial Number is required!")]
         public string SerialNumber { get; set; }
 
-
-        public AssetType? AssetType { get; set; }
-        public Manufacturer? Manufacturer { get; set; }
-        public Model? Model { get; set; }
     }
 }

@@ -18,8 +18,9 @@ namespace AssetTrackingSystem.Web.Controllers
         private readonly IModelRepository _modelRepository;
         private readonly IEmployeeService _employeeService;
         private readonly IDepartmentService _departmentService;
+        private readonly IAssetTypeRepository _assetTypeRepository1;
 
-        public AssetsController(IAssetRepository assetRepository, IAssetTypeRepository assetTypeRepository, IManufacturerRepository manufacturerRepository, IModelRepository modelRepository, IEmployeeService employeeService, IDepartmentService departmentService)
+        public AssetsController(IAssetRepository assetRepository, IAssetTypeRepository assetTypeRepository, IManufacturerRepository manufacturerRepository, IModelRepository modelRepository, IEmployeeService employeeService, IDepartmentService departmentService, IAssetTypeRepository assetTypeRepository1)
         {
             _assetRepository = assetRepository;
             _assetTypeRepository = assetTypeRepository;
@@ -27,12 +28,113 @@ namespace AssetTrackingSystem.Web.Controllers
             _modelRepository = modelRepository;
             _employeeService = employeeService;
             _departmentService = departmentService;
+            //_assetTypeRepository1 = assetTypeRepository1;
+        }
+
+
+
+        //GET: AssetController/Assign
+        [HttpGet]
+        public async Task<ActionResult> Assign()
+        {
+            IList<AssetType> assetTypes = await _assetTypeRepository.GetAllAssetTypes();
+            ViewData["AssetTypes"] = assetTypes.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString()
+            }); ;
+
+            IList<Asset> assets = await _assetRepository.GetAllAssets();
+            IList<Asset> unAssignedAssets = assets.Where(a => string.IsNullOrEmpty(a.AssignedTo)).ToList();
+
+            ViewData["UnassignedAssets"] = unAssignedAssets.Select(a => new SelectListItem
+            {
+                Text = $"{a.AssetType.Name} - {a.Model.Name} - {a.Manufacturer.Name} - {a.SerialNumber}",
+                Value = a.Id.ToString()
+            });
+
+            await LoadEmployees();
+            return View();
+        }
+
+
+
+        //POST: AssetController/Assign
+        [HttpPost]
+        public async Task<ActionResult> Assign(AssignViewModel assignVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                await Assign();
+                return View(assignVM);
+            }
+
+            Asset asset = await _assetRepository.GetAssetsById(Convert.ToInt32(assignVM.AssetItem));
+
+            //if (string.IsNullOrEmpty(assignVM.AssignedTo))
+            //{
+            //    await Assign();
+            //    return View(assignVM);
+            //}
+            asset.AssignedTo = assignVM.AssignedTo;
+
+            await _assetRepository.UpdateAsset(asset);
+
+            return RedirectToAction("Index", "Assets");
+        }
+
+
+
+        //GET: AssetController/Assign
+        [HttpGet]
+        public async Task<ActionResult> Unassign()
+        {
+            IList<AssetType> assetTypes = await _assetTypeRepository.GetAllAssetTypes();
+            ViewData["AssetTypes"] = assetTypes.Select(at => new SelectListItem
+            {
+                Text = at.Name,
+                Value = at.Id.ToString()
+            }); ;
+
+            IList<Asset> assets = await _assetRepository.GetAllAssets();
+
+            IList<Asset> assignedassets = assets.Where(a => !string.IsNullOrEmpty(a.AssignedTo)).ToList();
+
+            ViewData["AssignedAssets"] = assignedassets.Select(a => new SelectListItem
+            {
+                Text = $"{a.AssetType.Name} - {a.Model.Name} - {a.Manufacturer.Name} - {a.SerialNumber}",
+                Value = a.Id.ToString()
+            });
+
+            return View();
+        }
+
+
+
+        //POST: AssetController/Unassign
+        [HttpPost]
+        public async Task<ActionResult> Unassign(UnassignViewModel assignVM)
+        {
+            if (!ModelState.IsValid)
+            {
+                await Unassign();
+                return View(assignVM);
+            }
+
+
+            Asset asset = await _assetRepository.GetAssetsById(Convert.ToInt32(assignVM.AssetItem));
+
+            asset.AssignedTo = assignVM.AssignedTo;
+
+            await _assetRepository.UpdateAsset(asset);
+
+            return RedirectToAction("Index", "Assets");
         }
 
 
 
 
-        // GET: AssetController
+        // GET: AssetController/Index
         public async Task<ActionResult> Index(string? assignStatusFltr, string? employeeFltr, int? assetTypeFltr)
         {
             IList<Asset> assets = await _assetRepository.GetAllAssets();

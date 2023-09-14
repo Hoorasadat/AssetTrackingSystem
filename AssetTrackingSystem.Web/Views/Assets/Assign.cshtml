@@ -1,0 +1,40 @@
+﻿@model AssignViewModel
+
+@{
+    ViewData["Title"] = "Assignment";
+}
+
+<h1 class="text-center text-primary fw-bold m-5">Assign Assets to Employees</h1>
+
+<form method="post" asp-controller="Assets" asp-action="Assign">
+
+    <div class="row">
+
+        <div class="row col-md-6 me-2">
+            <label asp-for="AssetItem" class="col-form-label col-md-2 d-flex align-items-center"></label>
+            <div class="col-md-10 mb-2 mt-2">
+                <select asp-for="AssetItem" class="form-control form-select" asp-items="@ViewBag.UnassignedAssets">
+                    <option value="">Select Asset</option>
+                </select>
+                <span asp-validation-for="AssetItem" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="row col-md-6 me-2">
+            <label asp-for="AssignedTo" class="col-form-label col-md-2 d-flex align-items-center"></label>
+            <div class="col-md-10 mb-2 mt-2">
+                <select asp-for="AssignedTo" class="form-control form-select" asp-items="@ViewBag.Employees">
+                    <option value="">Select Employee</option>
+                </select>
+                <span asp-validation-for="AssignedTo" class="text-danger"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="mt-3 m-2 mb-5">
+        <button type="submit" class="btn btn-primary col-md-2 m-2">Assign</button>
+    </div>
+
+</form>
+
